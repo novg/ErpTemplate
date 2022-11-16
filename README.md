@@ -1,5 +1,6 @@
-## Приложение обработки заказов клиентов
+## ERP Template
 
+ERP Template - приложение обработки заказов клиентов  
 Обрабатывает заказы от клиентов из различных источников:
  - Email
  - FTP
@@ -13,10 +14,12 @@
  - json
 
  Приложение использует следующие технологии:
- - Net 6
- - ASP.Net Core 6
- - Entity Framework Core 6
- - SQLite
+ - [Net 6](https://dotnet.microsoft.com/en-us/)
+ - [ASP.Net Core 6](https://dotnet.microsoft.com/en-us/apps/aspnet)
+ - [Entity Framework Core 6](https://learn.microsoft.com/en-us/ef/core/)
+ - [SQLite](https://www.sqlite.org)
 
-[Архитектура приложения](doc/arch.md)  
-[Архитектура приложения (альтернативная)](doc/arch_alter.md)
+[Архитектура приложения](doc/arch.md)
+
+### Лицензия
+[MIT](https://mit-license.org/)
