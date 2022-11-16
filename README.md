@@ -14,9 +14,9 @@
 
  Приложение использует следующие технологии:
  - Net 6
- - AspNet.Core 6
+ - ASP.Net Core 6
  - Entity Framework Core 6
  - SQLite
 
-[Архитектура приложения](doc/arch.md)
+[Архитектура приложения](doc/arch.md)  
 [Архитектура приложения (альтернативная)](doc/arch_alter.md)
