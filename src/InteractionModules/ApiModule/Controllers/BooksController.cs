@@ -18,7 +18,15 @@ public class BooksController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get a Book's list.
+    /// </summary>
+    /// <returns>A Book's list.</returns>
+    /// <response code="200">Returns exists books</response>
+    /// <response code="500">If internal server error occured.</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
     {
         try
@@ -33,7 +41,18 @@ public class BooksController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get a Book by id.
+    /// </summary>
+    /// <param name="bookId">Book id for getting</param>
+    /// <returns>A existing Book.</returns>
+    /// <response code="200">Returns existsing book.</response>
+    /// <response code="404">If book not exists.</response>
+    /// <response code="500">If internal server error occured.</response>
     [HttpGet("{bookId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<BookDto>>> GetBookById(int bookId)
     {
         try
