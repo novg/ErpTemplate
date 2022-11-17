@@ -9,13 +9,8 @@ namespace Infrastructure;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-        {
-            options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-        });
-
         services
             .AddScoped<IBookRepository, BookRepository>()
             .AddScoped<IOrderRepository, OrderRepository>();

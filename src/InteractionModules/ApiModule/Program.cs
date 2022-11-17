@@ -25,8 +25,14 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    {
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("ApiModule"));
+    });
+
 builder.Services
-    .AddInfrastructureServices(builder.Configuration)
+    .AddInfrastructureServices()
     .AddApplicationServices();
 
 var app = builder.Build();
