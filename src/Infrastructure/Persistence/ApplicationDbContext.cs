@@ -11,8 +11,8 @@ public sealed class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Book> ApprovalApplications => Set<Book>();
-    public DbSet<Order> Contracts => Set<Order>();
+    public DbSet<Book> Books => Set<Book>();
+    public DbSet<Order> Orders => Set<Order>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
