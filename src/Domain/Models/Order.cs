@@ -8,7 +8,7 @@ public class Order
 
     public string Number { get; set; } = string.Empty;
 
-    public DateTime Created { get; set; }
+    public DateTime Created { get; set; } = DateTime.UtcNow;
 
     public ClientType ClientType { get; set; }
 
