@@ -10,5 +10,6 @@ public class Book
 
     public decimal Price { get; set; }
 
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
     public ICollection<BookOrder> OrdersLink { get; set; } = new List<BookOrder>();
 }
