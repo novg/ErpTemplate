@@ -6,10 +6,9 @@ using Infrastructure.Repositories;
 using Application.Interfaces.Repositories;
 using Domain.Models;
 using Domain.Enums;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace Intrastructure.UnitTests;
+namespace Intrastructure.UnitTests.Repositories;
 
 public class OrderRepositoryTests : IDisposable
 {

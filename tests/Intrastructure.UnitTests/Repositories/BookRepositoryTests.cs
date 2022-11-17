@@ -9,7 +9,7 @@ using Domain.Models;
 using Domain.Exceptions;
 using System.Linq;
 
-namespace Intrastructure.UnitTests;
+namespace Intrastructure.UnitTests.Repositories;
 
 public class BookRepositoryTests : IDisposable
 {
