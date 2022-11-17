@@ -1,6 +1,5 @@
 using Xunit;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure.Persistence;
@@ -47,14 +46,14 @@ public class BookRepositoryTests : IDisposable
     {
         // Arrange
         int bookId = 1;
-        Book dbBook = _context.Books.Find(bookId);
+        Book? dbBook = await _context.Books.FindAsync(bookId);
 
         // Act
         Book book = await _repository.GetBookById(bookId);
 
         // Assert
         Assert.NotNull(book);
-        Assert.Equal(dbBook.Name, book.Name);
+        Assert.Equal(dbBook!.Name, book.Name);
         Assert.Equal(dbBook.Description, book.Description);
         Assert.Equal(dbBook.Price, book.Price);
     }
