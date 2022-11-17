@@ -4,6 +4,6 @@ namespace Application.Interfaces.Repositories;
 
 public interface IBookRepository
 {
-    Task<Book> GetBookById(Guid bookId);
+    Task<Book> GetBookById(int bookId);
     Task<IEnumerable<Book>> GetBooks();
 }

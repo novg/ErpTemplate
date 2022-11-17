@@ -15,7 +15,7 @@ public class BookRepository : IBookRepository
         _context = context;
     }
 
-    public async Task<Book> GetBookById(Guid bookId)
+    public async Task<Book> GetBookById(int bookId)
     {
         Book? book = await _context.Books
             .FindAsync(bookId);
