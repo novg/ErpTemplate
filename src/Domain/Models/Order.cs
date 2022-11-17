@@ -12,7 +12,7 @@ public class Order
 
     public ClientType ClientType { get; set; }
 
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public IList<Book> Books { get; set; } = new List<Book>();
 
-    public ICollection<BookOrder> BooksLink { get; set; } = new List<BookOrder>();
+    public IList<BookOrder> BooksLink { get; set; } = new List<BookOrder>();
 }
