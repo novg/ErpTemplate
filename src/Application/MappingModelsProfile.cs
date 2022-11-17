@@ -6,7 +6,7 @@ namespace Application;
 
 public class MappingModelsProfile : Profile
 {
-    protected MappingModelsProfile()
+    public MappingModelsProfile()
     {
         CreateMap<Book, BookDto>()
             .ReverseMap();
