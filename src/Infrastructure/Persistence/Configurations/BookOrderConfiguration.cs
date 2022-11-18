@@ -8,16 +8,17 @@ public class BookOrderConfiguration : IEntityTypeConfiguration<BookOrder>
 {
     public void Configure(EntityTypeBuilder<BookOrder> builder)
     {
-        builder.HasKey(p => new { p.BookId, p.OrderId });
+        builder
+            .HasKey(bookOrder => new { bookOrder.BookId, bookOrder.OrderId });
 
         builder
-            .HasOne(p => p.Book)
-            .WithMany(p => p.OrdersLink)
-            .HasForeignKey(p => p.BookId);
+            .HasOne(bookOrder => bookOrder.Book)
+            .WithMany(book => book.BookOrders)
+            .HasForeignKey(bookOrder => bookOrder.BookId);
 
         builder
-            .HasOne(p => p.Order)
-            .WithMany(p => p.BooksLink)
-            .HasForeignKey(p => p.OrderId);
+            .HasOne(bookOrder => bookOrder.Order)
+            .WithMany(order => order.BookOrders)
+            .HasForeignKey(bookOrder => bookOrder.OrderId);
     }
 }

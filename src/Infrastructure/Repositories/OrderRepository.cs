@@ -22,18 +22,18 @@ public class OrderRepository : IOrderRepository
             throw new ArgumentException(nameof(order));
         }
 
-        _context.Orders.Add(order);
 
         foreach (Book book in order.Books)
         {
-            _context.BookOrders.Add(new()
+            order.BookOrders.Add(new BookOrder
             {
-                Order = order,
-                BookCount = book.Count,
                 BookId = book.Id,
+                BookCount = book.Count,
             });
         }
 
+        order.Books.Clear();
+        _context.Orders.Add(order);
         await _context.SaveChangesAsync();
 
         return order;

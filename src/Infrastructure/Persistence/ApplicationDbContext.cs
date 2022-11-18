@@ -13,13 +13,11 @@ public sealed class ApplicationDbContext : DbContext
 
     public DbSet<Book> Books => Set<Book>();
     public DbSet<Order> Orders => Set<Order>();
-    public DbSet<BookOrder> BookOrders => Set<BookOrder>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new BookConfiguration());
         builder.ApplyConfiguration(new OrderConfiguration());
-        builder.ApplyConfiguration(new BookOrderConfiguration());
 
         builder.Entity<Book>().HasData(
             new Book { Id = 1, Name = "SICP", Description = "Structure and Interpretation of Computer Programs MIT cource", Price = 100 },

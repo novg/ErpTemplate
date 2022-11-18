@@ -17,21 +17,6 @@ namespace ApiModule.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
-            modelBuilder.Entity("BookOrder", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("OrdersId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("BooksId", "OrdersId");
-
-                    b.HasIndex("OrdersId");
-
-                    b.ToTable("BookOrder");
-                });
-
             modelBuilder.Entity("Domain.Models.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -78,20 +63,20 @@ namespace ApiModule.Migrations
 
             modelBuilder.Entity("Domain.Models.BookOrder", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BookCount")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("BookId", "OrderId");
+                    b.HasKey("OrderId", "BookId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("BookId");
 
-                    b.ToTable("BookOrders");
+                    b.ToTable("BookOrder");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
@@ -115,31 +100,16 @@ namespace ApiModule.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("BookOrder", b =>
-                {
-                    b.HasOne("Domain.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Models.BookOrder", b =>
                 {
                     b.HasOne("Domain.Models.Book", "Book")
-                        .WithMany("OrdersLink")
+                        .WithMany("BookOrders")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Order", "Order")
-                        .WithMany("BooksLink")
+                        .WithMany("BookOrders")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -151,12 +121,12 @@ namespace ApiModule.Migrations
 
             modelBuilder.Entity("Domain.Models.Book", b =>
                 {
-                    b.Navigation("OrdersLink");
+                    b.Navigation("BookOrders");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
-                    b.Navigation("BooksLink");
+                    b.Navigation("BookOrders");
                 });
 #pragma warning restore 612, 618
         }

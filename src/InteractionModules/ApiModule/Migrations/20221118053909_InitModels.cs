@@ -47,45 +47,21 @@ namespace ApiModule.Migrations
                 name: "BookOrder",
                 columns: table => new
                 {
-                    BooksId = table.Column<int>(type: "INTEGER", nullable: false),
-                    OrdersId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookOrder", x => new { x.BooksId, x.OrdersId });
-                    table.ForeignKey(
-                        name: "FK_BookOrder_Books_BooksId",
-                        column: x => x.BooksId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookOrder_Orders_OrdersId",
-                        column: x => x.OrdersId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookOrders",
-                columns: table => new
-                {
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     OrderId = table.Column<int>(type: "INTEGER", nullable: false),
                     BookCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookOrders", x => new { x.BookId, x.OrderId });
+                    table.PrimaryKey("PK_BookOrder", x => new { x.OrderId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_BookOrders_Books_BookId",
+                        name: "FK_BookOrder_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookOrders_Orders_OrderId",
+                        name: "FK_BookOrder_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -103,14 +79,9 @@ namespace ApiModule.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookOrder_OrdersId",
+                name: "IX_BookOrder_BookId",
                 table: "BookOrder",
-                column: "OrdersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookOrders_OrderId",
-                table: "BookOrders",
-                column: "OrderId");
+                column: "BookId");
         }
 
         /// <inheritdoc />
@@ -118,9 +89,6 @@ namespace ApiModule.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BookOrder");
-
-            migrationBuilder.DropTable(
-                name: "BookOrders");
 
             migrationBuilder.DropTable(
                 name: "Books");

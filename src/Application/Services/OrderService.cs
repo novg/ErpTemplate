@@ -2,6 +2,7 @@ using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Models;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 
 namespace Application.Services;
@@ -19,6 +20,7 @@ public class OrderService : IOrderService
 
     public async Task<OrderDto> CreateOrder(OrderDto input)
     {
+        input.ClientType = ClientType.Api;
         Order order = await _repository.CreateOrder(_mapper.Map<Order>(input));
         return _mapper.Map<OrderDto>(order);
     }
