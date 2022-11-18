@@ -34,7 +34,26 @@ public class OrderRepository : IOrderRepository
 
         order.Books.Clear();
         _context.Orders.Add(order);
+
         await _context.SaveChangesAsync();
+
+        await _context.Entry(order)
+            .Collection(o => o.Books)
+            .LoadAsync();
+
+        await _context.Entry(order)
+            .Collection(o => o.BookOrders)
+            .LoadAsync();
+
+        foreach (var book in order.Books)
+        {
+            int count = order.BookOrders
+                .Where(p => p.BookId == book.Id && p.OrderId == order.Id)
+                .Select(b => b.BookCount)
+                .First();
+
+            book.Count = count;
+        }
 
         return order;
     }
