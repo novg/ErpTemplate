@@ -45,15 +45,7 @@ public class OrderRepository : IOrderRepository
             .Collection(o => o.BookOrders)
             .LoadAsync();
 
-        foreach (var book in order.Books)
-        {
-            int count = order.BookOrders
-                .Where(p => p.BookId == book.Id && p.OrderId == order.Id)
-                .Select(b => b.BookCount)
-                .First();
-
-            book.Count = count;
-        }
+        SetBooksCount(order);
 
         return order;
     }
@@ -63,6 +55,7 @@ public class OrderRepository : IOrderRepository
         Order? order = await _context.Orders
             .AsNoTracking()
             .Include(order => order.Books)
+            .Include(order => order.BookOrders)
             .Where(order => order.Id == orderId)
             .SingleOrDefaultAsync();
 
@@ -71,14 +64,37 @@ public class OrderRepository : IOrderRepository
             throw new EntityNotFoundException();
         }
 
+        SetBooksCount(order);
+
         return order;
     }
 
     public async Task<IEnumerable<Order>> GetOrders()
     {
-        return await _context.Orders
+        IEnumerable<Order> orders = await _context.Orders
             .AsNoTracking()
             .Include(order => order.Books)
+            .Include(order => order.BookOrders)
             .ToListAsync();
+
+        foreach (var order in orders)
+        {
+            SetBooksCount(order);
+        }
+
+        return orders;
+    }
+
+    private static void SetBooksCount(Order order)
+    {
+        foreach (var book in order.Books)
+        {
+            int count = order.BookOrders
+                .Where(p => p.BookId == book.Id && p.OrderId == order.Id)
+                .Select(b => b.BookCount)
+                .First();
+
+            book.Count = count;
+        }
     }
 }
