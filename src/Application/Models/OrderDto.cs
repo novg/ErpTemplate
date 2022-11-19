@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
 
 namespace Application.Models;
@@ -12,5 +13,6 @@ public class OrderDto
 
     public ClientType ClientType { get; set; }
 
+    [Required]
     public List<BookDto> Books { get; set; } = new();
 }
