@@ -12,5 +12,9 @@ public class MappingModelsProfile : Profile
             .ReverseMap();
         CreateMap<Order, OrderDto>()
             .ReverseMap();
+        CreateMap<Book, BookInput>()
+            .ReverseMap();
+        CreateMap<Order, OrderInput>()
+            .ReverseMap();
     }
 }

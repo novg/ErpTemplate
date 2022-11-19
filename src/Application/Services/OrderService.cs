@@ -18,12 +18,13 @@ public class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<OrderDto> CreateOrder(OrderDto input)
+    public async Task<OrderDto> CreateOrder(OrderInput input)
     {
-        input.Number = $"{DateTime.UtcNow::yyyyMMdd-HHmmss-ffff}";
-        input.ClientType = ClientType.Api;
+        Order newOrder = _mapper.Map<Order>(input);
+        newOrder.Number = $"{DateTime.UtcNow::yyyyMMdd-HHmmss-fffffff}";
+        newOrder.ClientType = ClientType.Api;
 
-        Order order = await _repository.CreateOrder(_mapper.Map<Order>(input));
+        Order order = await _repository.CreateOrder(newOrder);
         return _mapper.Map<OrderDto>(order);
     }
 

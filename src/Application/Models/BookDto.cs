@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace Application.Models;
 
+[XmlType(TypeName = "Book")]
 public class BookDto
 {
-    [Required]
     public int Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
@@ -13,6 +13,5 @@ public class BookDto
 
     public decimal Price { get; set; }
 
-    [Required]
     public int Count { get; set; }
 }
