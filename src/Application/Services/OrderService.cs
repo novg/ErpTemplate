@@ -18,11 +18,11 @@ public class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<OrderDto> CreateOrder(OrderInput input)
+    public async Task<OrderDto> CreateOrder(OrderInput input, ClientType? clientType)
     {
         Order newOrder = _mapper.Map<Order>(input);
         newOrder.Number = $"{DateTime.UtcNow::yyyyMMdd-HHmmss-fffffff}";
-        newOrder.ClientType = ClientType.Api;
+        newOrder.ClientType = clientType ?? ClientType.Api;
 
         Order order = await _repository.CreateOrder(newOrder);
         return _mapper.Map<OrderDto>(order);

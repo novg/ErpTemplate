@@ -1,5 +1,6 @@
 using Application.Interfaces.Services;
 using Application.Models;
+using Domain.Enums;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -76,19 +77,20 @@ public class OrdersController : ControllerBase
     /// Creates a Order.
     /// </summary>
     /// <param name="input"></param>
+    /// <param name="clientType">Type of client module that sent the order</param>
     /// <returns>A newly created Order</returns>
     /// <response code="201">Returns the newly created order</response>
     /// <response code="400">If the input is null</response>
     /// <response code="500">If internal server error occured.</response>
-    [HttpPost]
+    [HttpPost("{clientType:ClientType?}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<OrderDto>> CreateOrder(OrderInput input)
+    public async Task<ActionResult<OrderDto>> CreateOrder(OrderInput input, ClientType? clientType)
     {
         try
         {
-            OrderDto order = await _service.CreateOrder(input);
+            OrderDto order = await _service.CreateOrder(input, clientType);
             return Ok(order);
         }
         catch (ArgumentException ex)
