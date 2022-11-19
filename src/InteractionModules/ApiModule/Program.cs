@@ -1,7 +1,7 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using ApiModule.Filters;
 using Application;
-using Domain.Enums;
 using Infrastructure;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddControllers()
-    .AddXmlSerializerFormatters();
+    .AddXmlSerializerFormatters()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.Configure<RouteOptions>(options =>
 {
