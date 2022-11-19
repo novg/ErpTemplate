@@ -12,5 +12,5 @@ public class OrderDto
 
     public ClientType ClientType { get; set; }
 
-    public IList<BookDto> Books { get; set; } = new List<BookDto>();
+    public List<BookDto> Books { get; set; } = new();
 }

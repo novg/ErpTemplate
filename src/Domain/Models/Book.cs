@@ -8,6 +8,6 @@ public class Book
     public decimal Price { get; set; }
     public int Count { get; set; }
 
-    public IList<Order> Orders { get; set; } = new List<Order>();
-    public IList<BookOrder> BookOrders { get; set; } = new List<BookOrder>();
+    public List<Order> Orders { get; set; } = new();
+    public List<BookOrder> BookOrders { get; set; } = new();
 }

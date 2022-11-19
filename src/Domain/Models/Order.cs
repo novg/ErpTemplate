@@ -9,6 +9,6 @@ public class Order
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public ClientType ClientType { get; set; }
 
-    public IList<Book> Books { get; set; } = new List<Book>();
-    public IList<BookOrder> BookOrders { get; set; } = new List<BookOrder>();
+    public List<Book> Books { get; set; } = new();
+    public List<BookOrder> BookOrders { get; set; } = new();
 }
