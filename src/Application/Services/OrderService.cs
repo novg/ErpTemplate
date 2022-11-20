@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Models;
@@ -10,11 +11,13 @@ namespace Application.Services;
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _repository;
+    private readonly IFileReaderFactory _readerFactory;
     private readonly IMapper _mapper;
 
-    public OrderService(IOrderRepository repository, IMapper mapper)
+    public OrderService(IOrderRepository repository, IFileReaderFactory readerFactory, IMapper mapper)
     {
         _repository = repository;
+        _readerFactory = readerFactory;
         _mapper = mapper;
     }
 
@@ -26,6 +29,15 @@ public class OrderService : IOrderService
 
         Order order = await _repository.CreateOrder(newOrder);
         return _mapper.Map<OrderDto>(order);
+    }
+
+    public async Task<OrderDto> CreateOrderFromFile(string fileName, Stream stream, ClientType? clientType)
+    {
+        IFileReader reader = _readerFactory.GetFileReader(Path.GetExtension(fileName));
+        Order order = await reader.Read(stream);
+
+        Order newOrder = await _repository.CreateOrder(order);
+        return _mapper.Map<OrderDto>(newOrder);
     }
 
     public async Task<OrderDto> GetOrderById(int orderId)

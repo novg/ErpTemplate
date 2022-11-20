@@ -104,4 +104,27 @@ public class OrdersController : ControllerBase
             return Problem(detail: ex.Message);
         }
     }
+
+    [HttpPost("{clientType:ClientType}/file")]
+    public async Task<ActionResult<OrderDto>> CreateOrderFromFile(IFormFile file, ClientType? clientType)
+    {
+        try
+        {
+            using (Stream stream = file.OpenReadStream())
+            {
+                OrderDto order = await _service.CreateOrderFromFile(file.FileName, stream, clientType);
+                return Ok(order);
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
+            return BadRequest(ex.Message);
+        }
+        catch (System.Exception ex)
+        {
+            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
+            return Problem(detail: ex.Message);
+        }
+    }
 }
