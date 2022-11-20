@@ -1,8 +1,7 @@
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
-using Infrastructure.Persistence;
 using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
@@ -13,7 +12,8 @@ public static class ConfigureServices
     {
         services
             .AddScoped<IBookRepository, BookRepository>()
-            .AddScoped<IOrderRepository, OrderRepository>();
+            .AddScoped<IOrderRepository, OrderRepository>()
+            .AddScoped<IFileReaderFactory, FileReaderFactory>();
 
         return services;
     }

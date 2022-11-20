@@ -1,5 +1,3 @@
-
-using Application.Interfaces;
 using Application.Interfaces.Services;
 using Application.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +12,7 @@ public static class ConfigureServices
 
         services
             .AddScoped<IBookService, BookService>()
-            .AddScoped<IOrderService, OrderService>()
-            .AddScoped<IFileReaderFactory, FileReaderFactory>();
+            .AddScoped<IOrderService, OrderService>();
 
         return services;
     }

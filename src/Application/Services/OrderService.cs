@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Models;
+using Application.Validators;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -35,6 +36,7 @@ public class OrderService : IOrderService
     {
         IFileReader reader = _readerFactory.GetFileReader(Path.GetExtension(fileName));
         Order order = await reader.Read(stream);
+        OrderValidator.Validate(order);
 
         Order newOrder = await _repository.CreateOrder(order);
         return _mapper.Map<OrderDto>(newOrder);

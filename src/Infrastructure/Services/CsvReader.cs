@@ -2,7 +2,7 @@ using Application.Interfaces;
 using Application.Validators;
 using Domain.Models;
 
-namespace Application.Services;
+namespace Infrastructure.Services;
 
 public class CsvReader : IFileReader
 {
@@ -31,8 +31,6 @@ public class CsvReader : IFileReader
                 });
             }
         }
-
-        OrderValidator.Validate(order);
 
         return order;
     }

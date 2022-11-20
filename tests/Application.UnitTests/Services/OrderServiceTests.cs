@@ -62,6 +62,11 @@ public class OrderServiceTests
         string fileName = "file.csv";
 
         Order order = new();
+        order.Books.Add(new Book
+        {
+            Id = 1,
+            Count = 1
+        });
 
         _repository
             .Setup(repo => repo.CreateOrder(order))
