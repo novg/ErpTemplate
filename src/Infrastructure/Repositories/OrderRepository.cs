@@ -1,5 +1,5 @@
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
-using Domain.Exceptions;
 using Domain.Models;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

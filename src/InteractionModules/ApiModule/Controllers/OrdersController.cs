@@ -1,7 +1,7 @@
+using Application.Exceptions;
 using Application.Interfaces.Services;
 using Application.Models;
 using Domain.Enums;
-using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiModule.Controllers;
