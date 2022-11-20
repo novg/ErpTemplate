@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
@@ -49,6 +50,35 @@ public class OrderServiceTests
 
         // Act
         await service.CreateOrder(orderInput, ClientType.Api);
+
+        // Assert
+    }
+
+    [Fact]
+    public async Task CreateOrderFromFile_Success()
+    {
+        // Arrange
+        Stream stream = new MemoryStream();
+        string fileName = "file.csv";
+
+        Order order = new();
+
+        _repository
+            .Setup(repo => repo.CreateOrder(order))
+            .ReturnsAsync(order);
+
+        _reader
+            .Setup(reader => reader.Read(stream))
+            .ReturnsAsync(order);
+
+        _factory
+            .Setup(factory => factory.GetFileReader(Path.GetExtension(fileName)))
+            .Returns(_reader.Object);
+
+        OrderService service = new(_repository.Object, _factory.Object, _mapper);
+
+        // Act
+        await service.CreateOrderFromFile(fileName, stream, ClientType.Api);
 
         // Assert
     }
