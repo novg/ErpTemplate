@@ -91,6 +91,7 @@ public class OrdersController : ControllerBase
         try
         {
             OrderDto order = await _service.CreateOrder(input, clientType);
+            _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
             return Ok(order);
         }
         catch (ArgumentException ex)
@@ -113,6 +114,7 @@ public class OrdersController : ControllerBase
             using (Stream stream = file.OpenReadStream())
             {
                 OrderDto order = await _service.CreateOrderFromFile(file.FileName, stream, clientType);
+                _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
                 return Ok(order);
             }
         }
