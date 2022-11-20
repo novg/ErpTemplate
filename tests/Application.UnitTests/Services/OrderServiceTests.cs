@@ -26,23 +26,15 @@ public class OrderServiceTests
     public async Task CreateOrder_Success()
     {
         // Arrange
-        BookDto book = new()
+        BookInput book = new()
         {
             Id = 1,
-            Name = "SICP",
-            Description = "Structure and Interpretation of Computer Programs MIT cource",
-            Price = 100
         };
 
-        OrderDto orderDto = new()
-        {
-            Id = 1,
-            ClientType = ClientType.Api,
-            Number = "20221101",
-        };
-        orderDto.Books.Add(book);
+        OrderInput orderInput = new();
+        orderInput.Books.Add(book);
 
-        Order order = _mapper.Map<Order>(orderDto);
+        Order order = _mapper.Map<Order>(orderInput);
 
         _repository
             .Setup(repo => repo.CreateOrder(order))
@@ -51,7 +43,7 @@ public class OrderServiceTests
         OrderService service = new(_repository.Object, _mapper);
 
         // Act
-        await service.CreateOrder(orderDto);
+        await service.CreateOrder(orderInput, ClientType.Api);
 
         // Assert
     }

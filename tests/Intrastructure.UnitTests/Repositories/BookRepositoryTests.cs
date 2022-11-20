@@ -6,8 +6,8 @@ using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Application.Interfaces.Repositories;
 using Domain.Models;
-using Domain.Exceptions;
 using System.Linq;
+using Application.Exceptions;
 
 namespace Intrastructure.UnitTests.Repositories;
 
