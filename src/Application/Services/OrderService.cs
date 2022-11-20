@@ -35,11 +35,12 @@ public class OrderService : IOrderService
     public async Task<OrderDto> CreateOrderFromFile(string fileName, Stream stream, ClientType? clientType)
     {
         IFileReader reader = _readerFactory.GetFileReader(Path.GetExtension(fileName));
-        Order order = await reader.Read(stream);
-        OrderValidator.Validate(order);
+        Order newOrder = await reader.Read(stream);
+        newOrder.Number = $"{DateTime.UtcNow::yyyyMMdd-HHmmss-fffffff}";
+        OrderValidator.Validate(newOrder);
 
-        Order newOrder = await _repository.CreateOrder(order);
-        return _mapper.Map<OrderDto>(newOrder);
+        Order order = await _repository.CreateOrder(newOrder);
+        return _mapper.Map<OrderDto>(order);
     }
 
     public async Task<OrderDto> GetOrderById(int orderId)

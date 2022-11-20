@@ -10,6 +10,7 @@ public class FileReaderFactory : IFileReaderFactory
         return extension switch
         {
             ".csv" => new CsvReader(),
+            ".xlsx" => new XlsxReader(),
             _ => throw new ArgumentException($"FileReader not found for file extension '{extension}'")
         };
     }
