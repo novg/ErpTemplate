@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Models;
 using Application.Services;
@@ -14,11 +15,15 @@ namespace Application.UnitTests.Services;
 public class OrderServiceTests
 {
     private readonly Mock<IOrderRepository> _repository;
+    private readonly Mock<IFileReaderFactory> _factory;
+    private readonly Mock<IFileReader> _reader;
     private readonly IMapper _mapper;
 
     public OrderServiceTests()
     {
         _repository = new Mock<IOrderRepository>();
+        _factory = new Mock<IFileReaderFactory>();
+        _reader = new Mock<IFileReader>();
         _mapper = Helpers.CreateMapper();
     }
 
@@ -40,7 +45,7 @@ public class OrderServiceTests
             .Setup(repo => repo.CreateOrder(order))
             .ReturnsAsync(order);
 
-        OrderService service = new(_repository.Object, _mapper);
+        OrderService service = new(_repository.Object, _factory.Object, _mapper);
 
         // Act
         await service.CreateOrder(orderInput, ClientType.Api);
@@ -74,7 +79,7 @@ public class OrderServiceTests
             .Setup(repo => repo.GetOrderById(orderId))
             .ReturnsAsync(order);
 
-        OrderService service = new(_repository.Object, _mapper);
+        OrderService service = new(_repository.Object, _factory.Object, _mapper);
 
         // Act
         OrderDto orderDto = await service.GetOrderById(orderId);
@@ -112,7 +117,7 @@ public class OrderServiceTests
             .Setup(repo => repo.GetOrders())
             .ReturnsAsync(orders);
 
-        OrderService service = new(_repository.Object, _mapper);
+        OrderService service = new(_repository.Object, _factory.Object, _mapper);
 
         // Act
         IEnumerable<OrderDto> orderDtos = await service.GetOrders();
