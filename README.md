@@ -18,6 +18,7 @@ ERP Template - приложение обработки заказов клиен
  - [ASP.Net Core 6](https://dotnet.microsoft.com/en-us/apps/aspnet)
  - [Entity Framework Core 6](https://learn.microsoft.com/en-us/ef/core/)
  - [SQLite](https://www.sqlite.org)
+ - [NPOI](https://www.nuget.org/packages/NPOI)
 
 [Архитектура приложения](doc/arch.md)
 
