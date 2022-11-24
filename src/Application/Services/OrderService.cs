@@ -45,7 +45,6 @@ public class OrderService : IOrderService
 
     public async Task<OrderDto> GetOrderById(int orderId)
     {
-        throw new Exception("test error");
         Order order = await _repository.GetOrderById(orderId);
         return _mapper.Map<OrderDto>(order);
     }
