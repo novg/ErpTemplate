@@ -1,4 +1,3 @@
-using Application.Exceptions;
 using Application.Interfaces.Services;
 using Application.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,18 +26,9 @@ public class BooksController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
+    public async Task<IEnumerable<BookDto>> GetBooks()
     {
-        try
-        {
-            IEnumerable<BookDto> books = await _service.GetBooks();
-            return Ok(books);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Error get books: {ErrorMessage}", ex.Message);
-            return Problem(detail: ex.Message);
-        }
+        return await _service.GetBooks();
     }
 
     /// <summary>
@@ -53,22 +43,8 @@ public class BooksController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<BookDto>>> GetBookById(int bookId)
+    public async Task<BookDto> GetBookById(int bookId)
     {
-        try
-        {
-            BookDto book = await _service.GetBookById(bookId);
-            return Ok(book);
-        }
-        catch (EntityNotFoundException)
-        {
-            _logger.LogError("Error get: book {BookId} not found", bookId);
-            return NotFound();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Error get book {BookId}: {ErrorMessage}", bookId, ex.Message);
-            return Problem(detail: ex.Message);
-        }
+        return await _service.GetBookById(bookId);
     }
 }

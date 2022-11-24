@@ -1,4 +1,3 @@
-using Application.Exceptions;
 using Application.Interfaces.Services;
 using Application.Models;
 using Domain.Enums;
@@ -28,18 +27,10 @@ public class OrdersController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrders()
+    public async Task<IEnumerable<OrderDto>> GetOrders()
     {
-        try
-        {
-            IEnumerable<OrderDto> orders = await _service.GetOrders();
-            return Ok(orders);
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError("Error get orders: {ErrorMessage}", ex.Message);
-            return Problem(detail: ex.Message);
-        }
+        IEnumerable<OrderDto> orders = await _service.GetOrders();
+        return orders;
     }
 
     /// <summary>
@@ -54,23 +45,9 @@ public class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<OrderDto>> GetOrderById(int orderId)
+    public async Task<OrderDto> GetOrderById(int orderId)
     {
-        try
-        {
-            OrderDto order = await _service.GetOrderById(orderId);
-            return Ok(order);
-        }
-        catch (EntityNotFoundException)
-        {
-            _logger.LogError("Error get: order {OrderId} not found", orderId);
-            return NotFound();
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError("Error get order {OrderId}: {ErrorMessage}", orderId, ex.Message);
-            return Problem(detail: ex.Message);
-        }
+        return await _service.GetOrderById(orderId);
     }
 
     /// <summary>
@@ -86,47 +63,21 @@ public class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<OrderDto>> CreateOrder(OrderInput input, ClientType? clientType)
+    public async Task<OrderDto> CreateOrder(OrderInput input, ClientType? clientType)
     {
-        try
-        {
-            OrderDto order = await _service.CreateOrder(input, clientType);
-            _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
-            return Ok(order);
-        }
-        catch (ArgumentException ex)
-        {
-            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
-            return BadRequest(ex.Message);
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
-            return Problem(detail: ex.Message);
-        }
+        OrderDto order = await _service.CreateOrder(input, clientType);
+        _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
+        return order;
     }
 
     [HttpPost("{clientType:ClientType}/file")]
-    public async Task<ActionResult<OrderDto>> CreateOrderFromFile(IFormFile file, ClientType? clientType)
+    public async Task<OrderDto> CreateOrderFromFile(IFormFile file, ClientType? clientType)
     {
-        try
+        using (Stream stream = file.OpenReadStream())
         {
-            using (Stream stream = file.OpenReadStream())
-            {
-                OrderDto order = await _service.CreateOrderFromFile(file.FileName, stream, clientType);
-                _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
-                return Ok(order);
-            }
-        }
-        catch (ArgumentException ex)
-        {
-            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
-            return BadRequest(ex.Message);
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError("Error create order: {ErrorMessage}", ex.Message);
-            return Problem(detail: ex.Message);
+            OrderDto order = await _service.CreateOrderFromFile(file.FileName, stream, clientType);
+            _logger.LogInformation("Created order: {OrderId}, books count: {BookCount}", order.Id, order.Books.Count());
+            return order;
         }
     }
 }
